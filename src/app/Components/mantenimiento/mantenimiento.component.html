@@ -1,0 +1,16 @@
+<h2>Mantenimiento de los catálogos</h2>
+
+<div class="contenedor-enlace">
+  <div>
+    <div class="row fila">
+      <div class="col-md-4 columna" *ngFor="let n of nav">
+        <div class="enlace">
+          <a href="{{ n.route }}">
+            <mat-icon class="icono">{{ n.icon }}</mat-icon>
+            <span>{{ n.name }}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

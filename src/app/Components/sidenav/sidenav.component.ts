@@ -19,8 +19,11 @@ export class SidenavComponent implements OnInit {
 
   fillerNav = [
     {name: 'Inicio', route: 'home', icon: 'home'},
-    {name: 'Usuarios', route: 'users', icon: 'face'},
+    {name: 'Usuarios', route: 'users', icon: 'perm_identity'},
+    {name: 'Mantenimiento', route: 'mantenimiento', icon: 'settings'},
   ];
+
+  // https://www.angularjswiki.com/angular/angular-material-icons-list-mat-icon-list/
 
   // tslint:disable-next-line: variable-name
   private _mobileQueryListener: () => void;

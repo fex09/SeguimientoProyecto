@@ -1,0 +1,29 @@
+$height-enlace: 60px;
+$width-enlace: 60px;
+$padding-contenedor: 0 0px 0px 0;
+
+.enlace {
+  width: $width-enlace;
+  height: $height-enlace;
+  border: 1px solid black;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.columna {
+  padding-top: 50px;
+}
+
+.fila {
+  margin: 0 auto;
+  padding-left: 331px;
+}
+
+.icono {
+  font-size: 55px;
+  padding: 2px;
+}
+
+.contenedor-enlace {
+  padding: $padding-contenedor;
+}

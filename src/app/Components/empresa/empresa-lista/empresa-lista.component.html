@@ -1,0 +1,17 @@
+<h2 class="border-bottom p-2 mb-3">Empresas Incluidas</h2>
+
+<table class="table table-bordered table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>Id</th>
+      <th>Nombre</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let emp of emps">
+      <td>{{ emp.id }}</td>
+      <td>{{ emp.nombre }}</td>
+    </tr>
+  </tbody>
+</table>
+
