@@ -23,6 +23,7 @@ import { MantenimientoComponent } from './Components/mantenimiento/mantenimiento
 import { EmpresaAgregarComponent } from './Components/empresa/empresa-agregar/empresa-agregar.component';
 import { EmpresaEditarComponent } from './Components/empresa/empresa-editar/empresa-editar.component';
 import { EmpresaListaComponent } from './Components/empresa/empresa-lista/empresa-lista.component';
+import { LoginComponent } from './Components/login/login.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { EmpresaListaComponent } from './Components/empresa/empresa-lista/empres
     MantenimientoComponent,
     EmpresaAgregarComponent,
     EmpresaEditarComponent,
-    EmpresaListaComponent
+    EmpresaListaComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

@@ -9,32 +9,41 @@ import { Observable } from 'rxjs';
 export class EmpresaService {
 
   empresas: Empresa[];
-  dba: AngularFireDatabase;
   private dbPath = '/empresa';
   ref: AngularFireList<Empresa> = null;
 
   constructor(private db: AngularFireDatabase) {
     this.ref = db.list(this.dbPath);
-    this.dba = db;
     console.log(this.ref);
   }
 
-  public getList(): Empresa[] {
-    // return this.ref;
-    this.dba.list<Empresa>(this.dbPath)
-    .valueChanges()
-    .subscribe(empresas => {
-      this.empresas = empresas;
-      console.log('el getlist');
-      console.log(this.empresas);
-    });
-    return this.empresas;
+  createEmpresa(empresa: Empresa): void {
+    this.ref.push(empresa);
   }
 
   getEmpresaList(): AngularFireList<Empresa> {
     return this.ref;
   }
 
+  getEmpresaById(id: string): AngularFireList<Empresa> {
+    const x: AngularFireList<Empresa> = this.db.list(this.dbPath + '/' + id);
+    return x;
+  }
+
+  updateEmpresa(key: string, value: any): Promise<void> {
+    return this.ref.update(key, value);
+  }
+
+  deleteEmpresa(key: string): Promise<void> {
+    return this.ref.remove(key);
+  }
+
+  deleteAll(): Promise<void> {
+    return this.ref.remove();
+  }
+
+
+  // tslint:disable-next-line: max-line-length
   // https://grokonez.com/frontend/angular/angular-8/angular-8-firebase-tutorial-crud-operations-angular-fire-example#Firebase_CRUD_operations_with_angularfire
 
 
