@@ -10,7 +10,10 @@
       <div class="form-group">
         <label>Nombre de la Empresa</label>
         <input type="text" name="Nombre" #nombre="ngModel" class="form-control"
-        [(ngModel)]="empresa.nombre" required>
+        [(ngModel)]="empresa.nombre" required [ngClass]="{ 'is-invalid' : nombre.dirty && nombre.invalid }" />
+        <div class="invalid-feedback">
+          <div *ngIf="nombre.hasError('required')">El nombre es requerido</div>
+        </div>
       </div>
       <div class="form-group">
         <button type="submit" class="btn btn-primary">Guardar</button>

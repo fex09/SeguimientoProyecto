@@ -11,14 +11,21 @@ export class EmpresaService {
   empresas: Empresa[];
   private dbPath = '/empresa';
   ref: AngularFireList<Empresa> = null;
+  men: string;
 
   constructor(private db: AngularFireDatabase) {
     this.ref = db.list(this.dbPath);
-    console.log(this.ref);
+    this.men = '';
   }
 
-  createEmpresa(empresa: Empresa): void {
-    this.ref.push(empresa);
+  /* Si retorna un string vacío es
+  que se guardó correctamente el dato*/
+  createEmpresa(empresa: Empresa): string {
+    this.ref.update(empresa.id.toString(), empresa).then(() =>
+      this.men = '').catch((err) =>
+      this.men = err);
+    console.log(this.men);
+    return this.men;
   }
 
   getEmpresaList(): AngularFireList<Empresa> {

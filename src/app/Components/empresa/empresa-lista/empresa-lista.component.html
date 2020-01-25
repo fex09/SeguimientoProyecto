@@ -1,18 +1,21 @@
-<h1 class="border-bottom p-2 mb-3">Empresas</h1>
+
+<h1 class="border-bottom p-2 mb-3">Empresas
+  <button class="btn btn-link float-right pt-3" routerLink="/empresa/agregar">Agregar Empresa</button></h1>
+
 
 <table class="table table-bordered table-striped">
   <thead class="thead-light">
     <tr>
       <th>Id</th>
       <th>Nombre</th>
-      <th>Acciones</th>
+      <th class="botones">Acciones</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let emp of empresas">
       <td>{{ emp.id }}</td>
       <td>{{ emp.nombre }}</td>
-      <td class="text-center">
+      <td class="text-center botones">
         <a class="btn btn-info btn-sm" type="button" routerLink="/empresa/editar/{{emp.id}}">Editar</a>
         <button class="btn btn-danger btn-sm m-2" type="button" (click)="deleteEmpresa(emp.id)">Eliminar</button>
       </td>

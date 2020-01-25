@@ -9,6 +9,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './Components/app.component';
@@ -24,6 +26,10 @@ import { EmpresaAgregarComponent } from './Components/empresa/empresa-agregar/em
 import { EmpresaEditarComponent } from './Components/empresa/empresa-editar/empresa-editar.component';
 import { EmpresaListaComponent } from './Components/empresa/empresa-lista/empresa-lista.component';
 import { LoginComponent } from './Components/login/login.component';
+import { SnackbarComponent } from './Components/snackbar/snackbar.component';
+import { AreaListaComponent } from './Components/area/area-lista/area-lista.component';
+import { AreaAgregarComponent } from './Components/area/area-agregar/area-agregar.component';
+import { AreaEditarComponent } from './Components/area/area-editar/area-editar.component';
 
 
 @NgModule({
@@ -36,7 +42,11 @@ import { LoginComponent } from './Components/login/login.component';
     EmpresaAgregarComponent,
     EmpresaEditarComponent,
     EmpresaListaComponent,
-    LoginComponent
+    LoginComponent,
+    SnackbarComponent,
+    AreaListaComponent,
+    AreaAgregarComponent,
+    AreaEditarComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +56,8 @@ import { LoginComponent } from './Components/login/login.component';
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    MatTooltipModule,
+    MatSnackBarModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     HttpClientModule,

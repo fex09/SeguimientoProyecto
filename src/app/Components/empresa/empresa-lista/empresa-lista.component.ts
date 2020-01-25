@@ -3,6 +3,7 @@ import { Empresa } from 'src/app/models/empresa';
 import { EmpresaService } from 'src/app/Services/empresa.service';
 import { AngularFireList } from '@angular/fire/database';
 import { map } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-empresa-lista',
@@ -12,35 +13,38 @@ import { map } from 'rxjs/operators';
 export class EmpresaListaComponent implements OnInit {
 
   empresas: Empresa[];
-  service: EmpresaService;
+  servicio: EmpresaService;
+  message: string;
+  durationInSeconds = 4;
+  empresa: Empresa;
 
-  constructor(private es: EmpresaService ) {
-    this.service = es;
+  constructor(private es: EmpresaService,
+              private snackBar: MatSnackBar ) {
+    this.servicio = es;
+    this.message = '';
+    this.empresa = new Empresa();
   }
 
   ngOnInit() {
     this.getEmpresas();
   }
 
- /*  onSubmit() {
-    this.db.list('items').push({ content: this.itemValue});
-    this.itemValue = '';
-  }
- */
-
   getEmpresas() {
-    this.service.getEmpresaList().valueChanges().subscribe(emps => {
+    this.servicio.getEmpresaList()
+    .valueChanges()
+    .subscribe(emps => {
       this.empresas = emps;
-      console.log(this.empresas);
     });
   }
 
-  editEmpresa(empresa: Empresa): void {
-
-  }
-
   deleteEmpresa(id: string): void {
-    this.service.deleteEmpresa(id);
+    this.servicio.deleteEmpresa(id.toString())
+      .catch((err) => this.message = err)
+      .then(() =>  this.snackBar
+      .open('Registro eliminado correctamente!', 'Deshacer', {
+        duration: this.durationInSeconds * 1000,
+        verticalPosition: 'top'
+      }));
   }
 
 

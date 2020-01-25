@@ -3,6 +3,7 @@ import { Empresa } from 'src/app/models/empresa';
 import { NgForm } from '@angular/forms';
 import { EmpresaService } from 'src/app/Services/empresa.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-empresa-editar',
@@ -13,17 +14,25 @@ export class EmpresaEditarComponent implements OnInit {
 
   empresa: Empresa;
   id: number;
+  message: string;
+  durationInSeconds = 4;
 
   constructor(private servicio: EmpresaService,
               private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private snackBar: MatSnackBar) {
+
+    this.empresa = new Empresa();
+
     this.route.paramMap.subscribe(params => {
       this.id = +params.get('id');
     });
   }
 
   ngOnInit() {
-    this.servicio.getEmpresaList().valueChanges().subscribe((emps: Empresa[]) => {
+    this.servicio.getEmpresaList()
+    .valueChanges()
+    .subscribe((emps: Empresa[]) => {
       this.empresa = emps.filter(
         (e) => e.id === this.id
       )[0];
@@ -34,12 +43,22 @@ export class EmpresaEditarComponent implements OnInit {
     if (form.invalid) {
       return;
     }
-    this.servicio.updateEmpresa(this.id.toString(), this.empresa);
+    this.servicio.updateEmpresa(this.id.toString(), this.empresa)
+    .then(() => {
+      this.message = 'Se actualizó la empresa ' + this.empresa.nombre;
+      this.snackBar.open(this.message, 'Deshacer', {
+        duration: this.durationInSeconds * 1000,
+        verticalPosition: 'top'
+      });
+    })
+    .catch(err => alert(err));
+    this.atras();
   }
 
   atras(): void {
     this.router.navigate(['/empresa/listar']);
   }
+
 
 
 }

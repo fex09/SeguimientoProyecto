@@ -1,1 +1,28 @@
-<p>empresa-agregar works!</p>
+<h1 class="border-bottom p-2 mb-3">Agregar Empresa</h1>
+<div class="row">
+  <div class="col-md-6">
+    <form class="" #agregarForm="ngForm" (submit)="guardar(agregarForm)">
+      <div class="form-group">
+        <label>ID</label>
+        <input type="number" name="ID" #iden="ngModel" class="form-control"
+        [(ngModel)]="empresa.id" required [ngClass]="{ 'is-invalid' : iden.dirty && iden.invalid }" >
+        <div class="invalid-feedback">
+          <div *ngIf="iden.hasError('required')">El ID es requerido</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Nombre de la Empresa</label>
+        <input type="text" name="Nombre" #nombre="ngModel" class="form-control"
+        [(ngModel)]="empresa.nombre" required [ngClass]="{ 'is-invalid' : nombre.dirty && nombre.invalid }" />
+        <div class="invalid-feedback">
+          <div *ngIf="nombre.hasError('required')">El nombre es requerido</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="button" class="btn btn-secondary ml-2" (click)="atras()">Regresar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
