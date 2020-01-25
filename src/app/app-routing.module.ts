@@ -7,6 +7,9 @@ import { EmpresaAgregarComponent } from './Components/empresa/empresa-agregar/em
 import { EmpresaEditarComponent } from './Components/empresa/empresa-editar/empresa-editar.component';
 import { EmpresaListaComponent } from './Components/empresa/empresa-lista/empresa-lista.component';
 import { LoginComponent } from './Components/login/login.component';
+import { AreaListaComponent } from './Components/area/area-lista/area-lista.component';
+import { AreaAgregarComponent } from './Components/area/area-agregar/area-agregar.component';
+import { AreaEditarComponent } from './Components/area/area-editar/area-editar.component';
 
 
 const routes: Routes = [
@@ -35,6 +38,22 @@ const routes: Routes = [
       {
         path: 'editar/:id',
         component: EmpresaEditarComponent
+      }
+    ]
+  },
+  {
+    path: 'area',
+    children: [{
+        path: 'listar',
+        component: AreaListaComponent
+      },
+      {
+        path: 'agregar',
+        component: AreaAgregarComponent
+      },
+      {
+        path: 'editar/:id',
+        component: AreaEditarComponent
       }
     ]
   },

@@ -58,7 +58,4 @@ export class EmpresaEditarComponent implements OnInit {
   atras(): void {
     this.router.navigate(['/empresa/listar']);
   }
-
-
-
 }

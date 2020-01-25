@@ -1,4 +1,4 @@
 export class Area {
-  idArea: number;
+  id: number;
   nombre: string;
 }

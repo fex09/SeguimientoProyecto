@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Empresa } from '../models/empresa';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

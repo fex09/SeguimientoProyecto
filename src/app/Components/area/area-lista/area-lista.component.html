@@ -1,1 +1,24 @@
-<p>area-lista works!</p>
+
+<h1 class="border-bottom p-2 mb-3">Areas de la Empresa
+  <button class="btn btn-link float-right pt-3" routerLink="/area/agregar">Agregar Area</button></h1>
+
+
+<table class="table table-bordered table-striped">
+  <thead class="thead-light">
+    <tr>
+      <th>Id</th>
+      <th>Nombre del Area</th>
+      <th class="botones">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let area of areas">
+      <td>{{ area.id }}</td>
+      <td>{{ area.nombre }}</td>
+      <td class="text-center botones">
+        <a class="btn btn-info btn-sm" type="button" routerLink="/area/editar/{{area.id}}">Editar</a>
+        <button class="btn btn-danger btn-sm m-2" type="button" (click)="deleteArea(area.id)">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
