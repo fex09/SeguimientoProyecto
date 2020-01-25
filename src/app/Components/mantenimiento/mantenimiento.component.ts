@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class MantenimientoComponent implements OnInit {
 
   nav = [
-    {name: 'Empresas', route: 'empresa-lista', icon: 'business'},
+    {name: 'Empresas', route: 'empresa/listar', icon: 'business'},
     {name: 'Areas', route: 'users', icon: 'layers'},
     {name: 'Estados', route: 'estados-lista', icon: 'apps'},
     {name: 'Tipos', route: 'tipoProyecto-lista', icon: 'location_city'},

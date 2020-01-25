@@ -12,7 +12,6 @@ import { map } from 'rxjs/operators';
 export class EmpresaListaComponent implements OnInit {
 
   empresas: Empresa[];
-  emps: any;
   service: EmpresaService;
 
   constructor(private es: EmpresaService ) {
@@ -20,9 +19,6 @@ export class EmpresaListaComponent implements OnInit {
   }
 
   ngOnInit() {
-   /*  this.empresas = this.service.getList();*/
-    console.log('el componente empresa');
-    console.log(this.empresas);
     this.getEmpresas();
   }
 
@@ -32,10 +28,21 @@ export class EmpresaListaComponent implements OnInit {
   }
  */
 
-getEmpresas() {
-  this.service.getEmpresaList().valueChanges().subscribe(emps => {
-    this.emps = emps;
-    console.log(this.emps);
-  });
-}
+  getEmpresas() {
+    this.service.getEmpresaList().valueChanges().subscribe(emps => {
+      this.empresas = emps;
+      console.log(this.empresas);
+    });
+  }
+
+  editEmpresa(empresa: Empresa): void {
+
+  }
+
+  deleteEmpresa(id: string): void {
+    this.service.deleteEmpresa(id);
+  }
+
+
+
 }
