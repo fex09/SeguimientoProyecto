@@ -1,1 +1,23 @@
-<p>users works!</p>
+<h1 class="border-bottom p-2 mb-3">Users</h1>
+
+<table class="table table-bordered table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>Id</th>
+      <th>Cédula</th>
+      <th>Email</th>
+      <th>Nombre</th>
+      <th>Apellido</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user.id }}</td>
+      <td>{{ user.cedula }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.nombre }}</td>
+      <td>{{ user.apellido }}</td>
+    </tr>
+  </tbody>
+</table>
+
