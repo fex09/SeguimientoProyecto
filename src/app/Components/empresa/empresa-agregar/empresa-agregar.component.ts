@@ -1,10 +1,10 @@
+import { AuthService } from 'src/app/Services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Empresa } from 'src/app/models/empresa';
 import { EmpresaService } from 'src/app/Services/empresa.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgForm } from '@angular/forms';
-
 @Component({
   selector: 'app-empresa-agregar',
   templateUrl: './empresa-agregar.component.html',
@@ -16,9 +16,11 @@ export class EmpresaAgregarComponent implements OnInit {
   message: string;
   durationInSeconds = 4;
 
+
   constructor(private servicio: EmpresaService,
               private router: Router,
-              private snackBar: MatSnackBar) {
+              private snackBar: MatSnackBar,
+              public auth: AuthService) {
     this.empresa = new Empresa();
     this.message = '';
   }

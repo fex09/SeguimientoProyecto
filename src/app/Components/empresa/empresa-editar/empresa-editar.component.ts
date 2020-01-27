@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { EmpresaService } from 'src/app/Services/empresa.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FireService } from 'src/app/Services/fire.service';
 
 @Component({
   selector: 'app-empresa-editar',
@@ -20,7 +21,8 @@ export class EmpresaEditarComponent implements OnInit {
   constructor(private servicio: EmpresaService,
               private router: Router,
               private route: ActivatedRoute,
-              private snackBar: MatSnackBar) {
+              private snackBar: MatSnackBar,
+              public auth: FireService) {
 
     this.empresa = new Empresa();
 

@@ -1,8 +1,9 @@
+import { Rol } from './rol';
 export class Usuario {
-  id: number;
-  cedula: number;
+  uid: number;
   email: string;
   nombre: string;
   apellido: string;
   correoVerificado: boolean;
+  roles: Rol;
 }

@@ -1,3 +1,5 @@
+import { TipoService } from './../../../Services/tipo.service';
+import { TipoProyecto } from './../../../models/tipoProyecto';
 import { Component, OnInit } from '@angular/core';
 import { Proyecto } from 'src/app/models/proyecto';
 import { Router } from '@angular/router';
@@ -13,7 +15,9 @@ import { Area } from 'src/app/models/area';
 export class SeguimientoInfoComponent implements OnInit {
   public proyecto: Proyecto;
   areas: Area[];
+  tipos: TipoProyecto[];
   durationInSeconds = 6;
+
   public prioridades: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   porcentaje1 = 0.6;
   porcentaje2 = 0.25;
@@ -21,12 +25,14 @@ export class SeguimientoInfoComponent implements OnInit {
 
   constructor(private router: Router,
               private servicioArea: AreaService,
+              private servicioTipo: TipoService,
               private snackBar: MatSnackBar) {
     this.proyecto = new Proyecto();
    }
 
   ngOnInit() {
     this.getAreas();
+    this.getTipos();
   }
 
   guardar() {
@@ -40,6 +46,15 @@ export class SeguimientoInfoComponent implements OnInit {
       this.areas = obj;
     });
     console.log(this.areas);
+  }
+
+  getTipos(): void {
+    this.servicioTipo.getList()
+    .valueChanges()
+    .subscribe(obj => {
+      this.tipos = obj;
+    });
+    console.log(this.tipos);
   }
 
   calcularPeso(av: number, mc: number, dc: number): number {

@@ -62,8 +62,10 @@
       <div class="col-md-4">
         <div class="form-group">
           <label>Tipo del proyecto</label>
-          <input type="text" name="Tipo" #tipo="ngModel" class="form-control" [(ngModel)]="proyecto.idTipoProyecto"
-            required [ngClass]="{ 'is-invalid' : tipo.dirty && tipo.invalid }" />
+          <select name="seltipo" id="Seltipo" class="formControlSelect" #tipo="ngModel"
+            [(ngModel)]="proyecto.idTipoProyecto" [ngClass]="{ 'is-invalid' : tipo.dirty && tipo.invalid }" required>
+            <option *ngFor="let tip of tipos" value="{{ tip.idTipoProyecto }}">{{ tip.nombre }}</option>
+          </select>
           <div class="invalid-feedback">
             <div *ngIf="tipo.hasError('required')">El tipo es requerido</div>
           </div>
@@ -103,7 +105,7 @@
           <label>Mejora el control</label>
           <input type="number" name="MC" #mc="ngModel" class="form-control" [(ngModel)]="proyecto.mejoraControl"
             required [ngClass]="{ 'is-invalid' : mc.dirty && mc.invalid }" max="3" min="1" maxlength="1"
-            placeholder="Entre 1 y 3" (change) = "validar3(mc.value)" />
+            placeholder="Entre 1 y 3" (change)="validar3(mc.value)" />
           <div class="invalid-feedback">
             <div *ngIf="av.hasError('required')">El valor es requerido.</div>
             <div *ngIf="av.hasError('maxlength')">La longitud máxima es 1</div>
@@ -117,7 +119,7 @@
           <label>Disminuye Costos</label>
           <input type="number" name="DC" #dc="ngModel" class="form-control" [(ngModel)]="proyecto.disminuyeCostos"
             required [ngClass]="{ 'is-invalid' : dc.dirty && dc.invalid }" max="3" min="1" maxlength="1"
-            placeholder="Entre 1 y 3" (change) = "validar3(dc.value)" />
+            placeholder="Entre 1 y 3" (change)="validar3(dc.value)" />
           <div class="invalid-feedback">
             <div *ngIf="av.hasError('required')">El valor es requerido.</div>
             <div *ngIf="av.hasError('maxlength')">La longitud máxima es 1</div>
@@ -130,7 +132,7 @@
         <div class="form-group">
           <label>Peso</label>
           <input type="text" name="Peso" #peso="ngModel" class="form-control" [(ngModel)]="proyecto.peso"
-            disabled="disabled" >
+            disabled="disabled">
         </div>
       </div>
       <div class="col-md-3">

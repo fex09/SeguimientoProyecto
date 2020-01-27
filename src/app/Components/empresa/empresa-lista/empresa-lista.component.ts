@@ -1,8 +1,8 @@
+import { AuthService } from 'src/app/Services/auth.service';
+import { Usuario } from 'src/app/models/usuario';
 import { Component, OnInit } from '@angular/core';
 import { Empresa } from 'src/app/models/empresa';
 import { EmpresaService } from 'src/app/Services/empresa.service';
-import { AngularFireList } from '@angular/fire/database';
-import { map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -17,9 +17,11 @@ export class EmpresaListaComponent implements OnInit {
   message: string;
   durationInSeconds = 4;
   empresa: Empresa;
+  user: Usuario;
 
   constructor(private es: EmpresaService,
-              private snackBar: MatSnackBar ) {
+              private snackBar: MatSnackBar,
+              public auth: AuthService ) {
     this.servicio = es;
     this.message = '';
     this.empresa = new Empresa();
@@ -30,11 +32,15 @@ export class EmpresaListaComponent implements OnInit {
   }
 
   getEmpresas() {
-    this.servicio.getEmpresaList()
-    .valueChanges()
-    .subscribe(emps => {
-      this.empresas = emps;
-    });
+    /* if (this.auth.canRead(this.user)) { */
+      this.servicio.getEmpresaList()
+        .valueChanges()
+        .subscribe(emps => {
+          this.empresas = emps;
+        });
+   /*  } else {
+      console.error('No tienes permisos para ver empresas!');
+    } */
   }
 
   deleteEmpresa(id: string): void {

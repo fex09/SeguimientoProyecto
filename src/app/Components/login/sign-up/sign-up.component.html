@@ -2,10 +2,10 @@
   <div class="displayTableCell">
 
     <div class="authBlock">
-      <h3>Sign Up</h3>
+      <h3>Registro</h3>
 
       <div class="formGroup">
-        <input type="email" class="formControl" placeholder="Email Address" #userEmail required>
+        <input type="email" class="formControl" placeholder="Dirección Email" #userEmail required>
       </div>
 
       <div class="formGroup">
@@ -17,18 +17,18 @@
       </div>
 
       <div class="formGroup">
-        <span class="or"><span class="orInner">Or</span></span>
+        <span class="or"><span class="orInner">O</span></span>
       </div>
 
       <!-- Continue with Google -->
       <div class="formGroup">
         <button type="button" class="btn googleBtn" (click)="authService.GoogleAuth()">
           <i class="fab fa-google-plus-g"></i>
-          Continue with Google
+          Registro con Google
         </button>
       </div>
     <div class="redirectToLogin">
-      <span>Already have an account? <span class="redirect" routerLink="/sign-in">Log In</span></span>
+      <span>Ya tiene una cuenta? <span class="redirect" routerLink="/sign-in">Log In</span></span>
     </div>
   </div>
 
