@@ -1,10 +1,12 @@
+import { Observable } from 'rxjs';
 import { Injectable, NgZone } from '@angular/core';
 
 import { auth } from 'firebase/app';
-import { AngularFireAuth } from "@angular/fire/auth";
+import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 import { Usuario } from '../models/usuario';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +14,20 @@ import { Usuario } from '../models/usuario';
 export class AuthService {
 
   userData: any;
+  user$: Observable<Usuario>;
 
   constructor(public afs: AngularFirestore,   // Inject Firestore service
               public afAuth: AngularFireAuth, // Inject Firebase auth service
               public router: Router,
-              public ngZone: NgZone)// NgZone service to remove outside scope warning)
-  {
+              public ngZone: NgZone) {
+    /* this.user$ = this.afAuth.authState
+    .switchMap(user => {
+      if (user) {
+        return this.afs.doc<Usuario>(`users/${user.id}`).valueChanges();
+      } else {
+        return Observable.of(null);
+      }
+    }); */
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.userData = user;
@@ -27,7 +37,7 @@ export class AuthService {
         localStorage.setItem('user', null);
         JSON.parse(localStorage.getItem('user'));
       }
-    })
+    });
   }
 
  // entrar con correo y password
@@ -39,8 +49,8 @@ export class AuthService {
       });
       this.SetUserData(result.user);
     }).catch((error) => {
-      console.log(error.message)
-    })
+      console.log(error.message);
+    });
 }
 
 // registrar con correo y password
@@ -50,10 +60,11 @@ SignUp(email, password) {
       /* Call the SendVerificaitonMail() function when new user sign
       up and returns promise */
       this.SendVerificationMail();
+      console.log(result.user);
       this.SetUserData(result.user);
     }).catch((error) => {
       console.log(error.message);
-    })
+    });
 }
 
 // enviar correo de verificacion
@@ -61,7 +72,7 @@ SendVerificationMail() {
   return this.afAuth.auth.currentUser.sendEmailVerification()
   .then(() => {
     this.router.navigate(['verify-email-address']);
-  })
+  });
 }
 
 // reseteo de password
@@ -70,8 +81,8 @@ ForgotPassword(passwordResetEmail) {
   .then(() => {
     window.alert('Reseteo de password enviado, revise su correo electrónico.');
   }).catch((error) => {
-    window.alert(error)
-  })
+    window.alert(error);
+  });
 }
 
 // verificar si el usuario está loggeado
@@ -91,29 +102,45 @@ AuthLogin(provider) {
   .then((result) => {
      this.ngZone.run(() => {
         this.router.navigate(['home']);
-      })
-    this.SetUserData(result.user);
+      });
+     this.SetUserData(result.user);
   }).catch((error) => {
-    window.alert(error)
-  })
+    window.alert(error);
+  });
 }
 
 /* Setting up user data when sign in with username/password,
 sign up with username/password and sign in with social auth
 provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
 SetUserData(user) {
-  const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.id}`);
+  const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+  console.log(user);
   const userData: Usuario = {
-    id: user.id,
-    cedula: user.cedula,
+    uid: user.uid,
     email: user.email,
     nombre: user.nombre,
     apellido: user.apellido,
-    correoVerificado: user.correoVerificado
-  }
+    correoVerificado: user.correoVerificado,
+    roles: user.rol
+  };
   return userRef.set(userData, {
     merge: true
-  })
+  });
+}
+// https://angularfirebase.com/lessons/role-based-authorization-with-firestore-nosql-and-angular-5/
+private updateUserData(user) {
+  const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+  const data: Usuario = {
+    uid: user.uid,
+    email: user.email,
+    nombre: user.nombre,
+    apellido: user.apellido,
+    correoVerificado: user.correoVerificado,
+    roles: {
+      admin: true
+    }
+  };
+  return userRef.set(data, { merge: true });
 }
 
   // Sign out
@@ -121,8 +148,35 @@ SetUserData(user) {
     return this.afAuth.auth.signOut().then(() => {
       localStorage.removeItem('user');
       this.router.navigate(['home']);
-    })
+    });
+  }
+
+  puedeLeer(user: Usuario): boolean {
+    const permitido = ['admin', 'usuario'];
+    return this.verificarAutorizacion(user, permitido);
+  }
+
+  puedeEditar(user: Usuario): boolean {
+    const permitido = ['admin'];
+    return this.verificarAutorizacion(user, permitido);
+  }
+
+  puedeEliminar(user: Usuario): boolean {
+    const permitido = ['admin'];
+    return this.verificarAutorizacion(user, permitido);
+  }
+
+  private verificarAutorizacion(user: Usuario, rolesPermitidos: string[]): boolean {
+    if (!user) { return false; }
+    for (const role of rolesPermitidos) {
+      if (user.roles[role]) {
+        return true;
+      }
+    }
+    return false;
   }
 }
 
 // https://www.positronx.io/angular-8-ngif-ngifelse-ngifthen-tutorial-with-examples/
+
+
