@@ -1,0 +1,164 @@
+<h1 class="border-bottom p-2 mb-3">Proyecto {{ proyecto.nombre }}</h1>
+
+<div class="container">
+
+  <form class="" #proyectoForm="ngForm" (submit)="guardar(proyectoForm)">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Prioridad</label>
+          <select name="selPrioridad" id="selPrioridad" class="formControlSelect" #prioridad="ngModel"
+            [(ngModel)]="proyecto.prioridad" [ngClass]="{ 'is-invalid' : prioridad.dirty && prioridad.invalid }"
+            required>
+            <option *ngFor="let pri of prioridades" value="{{ pri }}">{{ pri }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Nombre del proyecto</label>
+          <input type="text" name="Nombre" #nombre="ngModel" class="form-control" [(ngModel)]="proyecto.nombre" required
+            [ngClass]="{ 'is-invalid' : nombre.dirty && nombre.invalid }" />
+          <div class="invalid-feedback">
+            <div *ngIf="nombre.hasError('required')">El nombre es requerido</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Área</label>
+          <select class="formControlSelect" [(ngModel)]="proyecto.idArea" name="area" #area="ngModel"
+            [ngClass]="{ 'is-invalid' : area.dirty && area.invalid }" required>
+            <option *ngFor="let area of areas" value="{{area.id}}">{{area.nombre}}</option>
+          </select>
+          <div class="invalid-feedback">
+            <div *ngIf="area.hasError('required')">El área es requerida</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Proponente</label>
+          <input type="text" name="Proponente" #proponente="ngModel" class="form-control"
+            [(ngModel)]="proyecto.proponente" required
+            [ngClass]="{ 'is-invalid' : proponente.dirty && proponente.invalid }" />
+          <div class="invalid-feedback">
+            <div *ngIf="proponente.hasError('required')">El proponente es requerido</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Administrador del proyecto</label>
+          <input type="text" name="Admin" #admin="ngModel" class="form-control" [(ngModel)]="proyecto.idPM" required
+            [ngClass]="{ 'is-invalid' : admin.dirty && admin.invalid }" />
+          <div class="invalid-feedback">
+            <div *ngIf="admin.hasError('required')">El administrador es requerido</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Tipo del proyecto</label>
+          <input type="text" name="Tipo" #tipo="ngModel" class="form-control" [(ngModel)]="proyecto.idTipoProyecto"
+            required [ngClass]="{ 'is-invalid' : tipo.dirty && tipo.invalid }" />
+          <div class="invalid-feedback">
+            <div *ngIf="tipo.hasError('required')">El tipo es requerido</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Estado</label>
+          <input type="text" name="Estado" #estado="ngModel" class="form-control" [(ngModel)]="proyecto.idEstado"
+            required [ngClass]="{ 'is-invalid' : estado.dirty && estado.invalid }" />
+          <div class="invalid-feedback">
+            <div *ngIf="estado.hasError('required')">El estado es requerido</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Aumenta las ventas</label>
+          <input type="number" name="AV" #av="ngModel" class="form-control" [(ngModel)]="proyecto.aumentaVentas"
+            required [ngClass]="{ 'is-invalid' : av.dirty && av.invalid }" max="3" min="1" maxlength="1"
+            placeholder="Entre 1 y 3" (change)="validar3(av.value)" />
+          <div class="invalid-feedback">
+            <div *ngIf="av.hasError('required')">El indicador de aumento de ventas es requerido.</div>
+            <div *ngIf="av.hasError('maxlength')">La longitud máxima es 1</div>
+            <div *ngIf="av.hasError('max')">El valor máximo es 3</div>
+            <div *ngIf="av.hasError('min')">El valor mínimo es 3</div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Mejora el control</label>
+          <input type="number" name="MC" #mc="ngModel" class="form-control" [(ngModel)]="proyecto.mejoraControl"
+            required [ngClass]="{ 'is-invalid' : mc.dirty && mc.invalid }" max="3" min="1" maxlength="1"
+            placeholder="Entre 1 y 3" (change) = "validar3(mc.value)" />
+          <div class="invalid-feedback">
+            <div *ngIf="av.hasError('required')">El valor es requerido.</div>
+            <div *ngIf="av.hasError('maxlength')">La longitud máxima es 1</div>
+            <div *ngIf="av.hasError('max')">El valor máximo es 3</div>
+            <div *ngIf="av.hasError('min')">El valor mínimo es 3</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Disminuye Costos</label>
+          <input type="number" name="DC" #dc="ngModel" class="form-control" [(ngModel)]="proyecto.disminuyeCostos"
+            required [ngClass]="{ 'is-invalid' : dc.dirty && dc.invalid }" max="3" min="1" maxlength="1"
+            placeholder="Entre 1 y 3" (change) = "validar3(dc.value)" />
+          <div class="invalid-feedback">
+            <div *ngIf="av.hasError('required')">El valor es requerido.</div>
+            <div *ngIf="av.hasError('maxlength')">La longitud máxima es 1</div>
+            <div *ngIf="av.hasError('max')">El valor máximo es 3</div>
+            <div *ngIf="av.hasError('min')">El valor mínimo es 3</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Peso</label>
+          <input type="text" name="Peso" #peso="ngModel" class="form-control" [(ngModel)]="proyecto.peso"
+            disabled="disabled" >
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Aporte</label>
+          <input type="text" name="Aporte" #aporte="ngModel" class="form-control" [(ngModel)]="proyecto.aporte"
+            disabled="disabled" />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>Observaciones</label>
+          <textarea type="text" name="Observaciones" #observa="ngModel" class="form-control" maxlength="50"
+            [(ngModel)]="proyecto.observaciones"
+            [ngClass]="{ 'is-invalid' : observa.dirty && observa.invalid }"></textarea>
+          <div class="invalid-feedback">
+            <div *ngIf="observa.hasError('maxlength')">Las Observaciones son de 50 o menos.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group float-right">
+      <button type="submit" class="btn btn-primary">Guardar</button>
+      <button type="button" class="btn btn-secondary ml-2" (click)="atras()">Regresar</button>
+    </div>
+  </form>
+
+
+</div>

@@ -46,7 +46,4 @@ export class EmpresaListaComponent implements OnInit {
         verticalPosition: 'top'
       }));
   }
-
-
-
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable } from 'rxjs';
+import { Usuario } from 'src/app/models/usuario';
+import { FirebaseAuth, FirebaseApp } from '@angular/fire';
 
 @Component({
   selector: 'app-home',
@@ -12,18 +14,16 @@ export class HomeComponent implements OnInit {
   description = 'Angular-Fire-Demo';
   itemValue = '';
   items: Observable<any[]>;
+  usuario: Usuario;
 
-  constructor(public db: AngularFireDatabase) {
-    this.items = db.list('items').valueChanges();
-    console.log(this.items);
-   }
-
-  ngOnInit() {
+  constructor(public db: FirebaseApp) {
+    this.usuario = new Usuario();
+    if (db.auth().currentUser !== null) {
+      this.usuario.nombre = db.auth().currentUser.displayName;
+    }
   }
 
-  onSubmit() {
-    this.db.list('items').push({ content: this.itemValue});
-    this.itemValue = '';
+  ngOnInit() {
   }
 
 }

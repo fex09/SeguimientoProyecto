@@ -11,8 +11,16 @@
       fixedTopGap="56">
       <mat-nav-list>
         <a mat-list-item [routerLink]="nav.route" *ngFor="let nav of fillerNav">
-          <mat-icon>{{ nav.icon }}</mat-icon>
-          {{nav.name}}
+            <mat-icon>{{ nav.icon }}</mat-icon>
+            {{nav.name}}
+        </a>
+        <a mat-list-item (click)="login()" *ngIf="!islogged">
+          <mat-icon>person_outline</mat-icon>
+          <span>Log In</span>
+        </a>
+        <a mat-list-item (click)="logout()" *ngIf="islogged">
+          <mat-icon>meeting_room</mat-icon>
+          <span>Log off</span>
         </a>
       </mat-nav-list>
     </mat-sidenav>

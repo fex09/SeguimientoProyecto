@@ -1,5 +1,27 @@
+@import 'https://use.fontawesome.com/releases/v5.5.0/css/all.css';
+
 $ancho: 175px;
+$img-home: 1000px;
 
 .botones {
   width: $ancho;
 }
+
+.home-img {
+  width: $img-home;
+}
+
+.formControlSelect {
+  font-size: 14px;
+  display: block;
+  width: 100%;
+  height: calc(1.5em + .75rem + 2px);
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+}
+
