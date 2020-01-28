@@ -1,3 +1,5 @@
+import { Observacion } from './observacion';
+
 export class Proyecto {
   idProyecto: number;
   prioridad: number;
@@ -13,6 +15,6 @@ export class Proyecto {
   disminuyeCostos: number; // números del 1 al 3 15%
   peso: number; // suma de aumento, mejora y disminuye.
   aporte: number; // aumento ventas * 60% + mejoracontrol * 25% + disminuyecostos * 15%
-  observaciones: string;
+  observaciones: Observacion[];
   fechaCreacion: Date;
 }

@@ -1,4 +1,4 @@
 export class AdministradorProyecto {
-  idPM: number;
+  id: number;
   nombre: string;
 }

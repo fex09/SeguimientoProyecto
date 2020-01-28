@@ -1,4 +1,4 @@
 export class TipoProyecto {
-  idTipo: number;
+  id: number;
   nombre: string;
 }
