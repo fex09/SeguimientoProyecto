@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AngularFireList, AngularFireDatabase } from '@angular/fire/database';
 import { Observacion } from '../models/observacion';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ObservacionService {
   observaciones: Observacion[];
-  private dbPath = '/observacion';
+  private dbPath = '/{proyecto}/observacion';
   ref: AngularFireList<Observacion> = null;
   men: string;
   constructor(private db: AngularFireDatabase) {
@@ -19,7 +18,7 @@ export class ObservacionService {
    /* Si retorna un string vacío es
   que se guardó correctamente el dato*/
   create(objeto: Observacion): string {
-    this.ref.update(objeto.id.toString(), objeto).then(() =>
+    this.ref.update(objeto.fecha.toString(), objeto).then(() =>
       this.men = '').catch((err) =>
       this.men = err);
     console.log(this.men);

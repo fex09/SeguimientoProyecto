@@ -2,7 +2,7 @@ import { TipoService } from './../../../Services/tipo.service';
 import { TipoProyecto } from './../../../models/tipoProyecto';
 import { Component, OnInit } from '@angular/core';
 import { Proyecto } from 'src/app/models/proyecto';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AreaService } from 'src/app/Services/area.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Area } from 'src/app/models/area';
@@ -11,6 +11,10 @@ import { AdministradorProyecto } from 'src/app/models/administradorProyecto';
 import { EstadoService } from 'src/app/Services/estado.service';
 import { PmService } from 'src/app/Services/pm.service';
 import { Observacion } from 'src/app/models/observacion';
+import { NgForm } from '@angular/forms';
+import { ProyectoService } from 'src/app/Services/proyecto.service';
+import { Empresa } from 'src/app/models/empresa';
+import { EmpresaService } from 'src/app/Services/empresa.service';
 
 @Component({
   selector: 'app-seguimiento-info',
@@ -22,11 +26,14 @@ export class SeguimientoInfoComponent implements OnInit {
   areas: Area[];
   tipos: TipoProyecto[];
   estados: Estado[];
+  empresas: Empresa[];
   pms: AdministradorProyecto[];
-  durationInSeconds = 6;
+  durationInSeconds = 4;
   sinObservacion: boolean;
   observaciones: Observacion[];
   obs: string;
+  message: string;
+  nombre: string;
 
   public prioridades: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   porcentaje1 = 0.6;
@@ -34,14 +41,23 @@ export class SeguimientoInfoComponent implements OnInit {
   porcentaje3 = 0.15;
 
   constructor(private router: Router,
+              private route: ActivatedRoute,
               private servicioArea: AreaService,
               private servicioTipo: TipoService,
               private servicioEstado: EstadoService,
               private servicioPM: PmService,
+              private servicioProyecto: ProyectoService,
+              private servicioEmpresa: EmpresaService,
               private snackBar: MatSnackBar) {
     this.proyecto = new Proyecto();
     this.sinObservacion = false;
     this.observaciones = [];
+    this.message = '';
+    this.proyecto.observaciones = [];
+    this.obs = '';
+    this.route.paramMap.subscribe(params => {
+      this.nombre = params.get('nombre');
+    });
    }
 
   ngOnInit() {
@@ -49,16 +65,79 @@ export class SeguimientoInfoComponent implements OnInit {
     this.getTipos();
     this.getEstados();
     this.getPMs();
+    this.getEmpresas();
+    if (this.nombre !== '0') {
+      this.servicioProyecto.getList()
+        .valueChanges()
+        .subscribe((obj: Proyecto[]) => {
+          this.proyecto = obj.filter(
+            (e) => e.nombre === this.nombre
+          )[0];
+          this.observaciones = obj.filter(
+            (e) => {
+              return e.nombre === this.nombre;
+            }
+          )[0].observaciones;
+        });
+    }
+
   }
 
-  guardar() {
+  guardar(form: NgForm) {
+    if (form.invalid) {
+      return;
+    }
+    const obj = {
+      fecha: new Date(),
+      observacion: this.obs
+    };
+    this.proyecto.observaciones.push(obj);
+    this.proyecto.idProyecto = this.proyecto.nombre;
+    this.proyecto.fechaCreacion = new Date();
+    const resp = this.servicioProyecto.create(this.proyecto);
+    this.message = resp === '' ? 'Registro guardado correctamente! ' + this.proyecto.nombre : resp;
+    this.snackBar.open(this.message , 'Deshacer', {
+      duration: this.durationInSeconds * 1000,
+      verticalPosition: 'top'
+    });
+    this.getObservacion(this.proyecto.idProyecto);
+    this.obs = '';
+  }
 
+  getObservacion(idProyecto: string): void {
+    this.servicioProyecto.getList()
+    .valueChanges()
+    .subscribe((proy: Proyecto[]) => {
+      this.observaciones = proy.filter(
+        (e) => {
+          return e.idProyecto === idProyecto;
+        }
+      )[0].observaciones;
+    });
   }
 
   guardarObservacion() {
     this.sinObservacion = this.obs === '';
     if (!this.sinObservacion) {
-
+      const obj = {
+        fecha: new Date(),
+        observacion: this.obs
+      };
+      this.proyecto.observaciones.push(obj);
+      this.servicioProyecto.update(this.proyecto.nombre, this.proyecto)
+      .then(() => {
+        this.message = 'Se agregó la observación con éxito!';
+        this.snackBar.open(this.message, 'Deshacer', {
+          duration: this.durationInSeconds * 1000,
+          verticalPosition: 'top'
+        });
+      }).catch(err => alert(err));
+      this.obs = '';
+    } else {
+      this.snackBar.open('Debe agregar una observación!' , '', {
+        duration: this.durationInSeconds * 1000,
+        verticalPosition: 'top'
+      });
     }
   }
 
@@ -84,6 +163,14 @@ export class SeguimientoInfoComponent implements OnInit {
     .valueChanges()
     .subscribe(obj => {
       this.estados = obj;
+    });
+  }
+
+  getEmpresas(): void {
+    this.servicioEmpresa.getEmpresaList()
+    .valueChanges()
+    .subscribe(obj => {
+      this.empresas = obj;
     });
   }
 

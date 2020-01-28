@@ -1,15 +1,16 @@
 import { Observacion } from './observacion';
 
 export class Proyecto {
-  idProyecto: number;
+  idProyecto: string;
   prioridad: number;
   nombre: string;
   descripcion: string;
-  idArea: number;
+  areaNombre: string;
+  empresaNombre: string;
   proponente: string;
-  idPM: string;
-  idTipoProyecto: number; // mejora, nueva funcionalidad, cumplimiento legal
-  idEstado: number; // cotización producción, finalizado, inicio
+  pmNombre: string;
+  tipoProyectoNombre: number; // mejora, nueva funcionalidad, cumplimiento legal
+  estadoNombre: string; // cotización producción, finalizado, inicio
   aumentaVentas: number; // números del 1 al 3 60%
   mejoraControl: number; // números del 1 al 3 25%
   disminuyeCostos: number; // números del 1 al 3 15%

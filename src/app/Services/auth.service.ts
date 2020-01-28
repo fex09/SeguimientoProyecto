@@ -15,6 +15,7 @@ export class AuthService {
 
   userData: any;
   user$: Observable<Usuario>;
+  snackBar: any;
 
   constructor(public afs: AngularFirestore,   // Inject Firestore service
               public afAuth: AngularFireAuth, // Inject Firebase auth service
@@ -47,9 +48,15 @@ export class AuthService {
       this.ngZone.run(() => {
         this.router.navigate(['home']);
       });
-      this.SetUserData(result.user);
+      // this.SetUserData(result.user);
     }).catch((error) => {
-      console.log(error.message);
+      if (error.message.indexOf('is no user', 0) > 0) {
+        alert('El usuario no está registrado');
+      } else if (error.message.indexOf('password', 0) > 0)  {
+        alert('Password incorrecto!');
+      } else {
+        console.log(error.message);
+      }
     });
 }
 
@@ -88,7 +95,8 @@ ForgotPassword(passwordResetEmail) {
 // verificar si el usuario está loggeado
 get isLoggedIn(): boolean {
   const user = JSON.parse(localStorage.getItem('user'));
-  return (user !== null && user.emailVerified !== false) ? true : false;
+  // return (user !== null && user.emailVerified !== false) ? true : false;
+  return (user !== null) ? true : false;
 }
 
 // autenticación con google
@@ -118,7 +126,7 @@ SetUserData(user) {
   const userData: Usuario = {
     uid: user.uid,
     email: user.email,
-    nombre: user.nombre,
+    nombre: user.displayName,
     apellido: user.apellido,
     correoVerificado: user.correoVerificado,
     roles: user.rol

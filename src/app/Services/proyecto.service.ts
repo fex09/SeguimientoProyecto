@@ -19,7 +19,7 @@ export class ProyectoService {
     /* Si retorna un string vacío es
   que se guardó correctamente el dato*/
   create(objeto: Proyecto): string {
-    this.ref.update(objeto.id.toString(), objeto).then(() =>
+    this.ref.update(objeto.idProyecto.toString(), objeto).then(() =>
       this.men = '').catch((err) =>
       this.men = err);
     console.log(this.men);

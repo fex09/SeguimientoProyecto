@@ -22,8 +22,8 @@ import { SeguimientoInfoComponent } from './Components/seguimiento/seguimiento-i
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
   { path: 'seguimiento-lista', component: SeguimientoListaComponent, canActivate: [AuthGuard] },
-  { path: 'seguimiento-info/:id', component: SeguimientoInfoComponent, canActivate: [AuthGuard] },
-  { path: 'seguimiento-info', component: SeguimientoInfoComponent, canActivate: [AuthGuard] },
+  { path: 'seguimiento-info/:nombre', component: SeguimientoInfoComponent, canActivate: [AuthGuard] },
+  { path: 'seguimiento-info/0', component: SeguimientoInfoComponent, canActivate: [AuthGuard] },
   { path: 'sign-in', component: SignInComponent },
   { path: 'register-user', component: SignUpComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
